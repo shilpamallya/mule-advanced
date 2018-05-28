@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" protocol="HTTPS" host="0.0.0.0" port="443" doc:name="HTTP Listener Configuration">
+        <tls:context>
+            <tls:key-store type="jks" path="localhost-keystore.jks" alias="localhost" keyPassword="admin" password="admin"/>
+        </tls:context>
+    </http:listener-config>
+    <flow name="get:/server:one-way-https-ssl">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/server" doc:name="HTTPS"/>
+        <logger message="Reached Server get/server invoked." level="INFO" doc:name="Log Start"/>
+        <set-payload value="Request received from client." doc:name="Set Payload"/>
+    </flow>
+</mule>
